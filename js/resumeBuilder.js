@@ -12,12 +12,12 @@ var bio =
         "welcomeMessage": "Interested in the Defense, Space, and Commercial industries. Professional background includes development, systems, and test work on software projects for military and commercial applications. Familiar with Agile methodologies. Proven record in streamlining processes associated with software, including installer creation and regression testing. Undergraduate educational background includes robotics, embedded systems, and mechatronics at a school consistently ranked in the top 5 of electrical engineering programs. Graduate educational background includes controls and communications with a focus on modern control theories. Specialties: Robotics, Control Theory, Communications, Embedded Systems",
         "skills": [
             "Testing",
-            "Systesms Enginnering",
-            "Agile Methodologies",
-            "Software Documentation",
-            "Control Theory"
+            " Systems Enginnering",
+            " Agile Methodologies",
+            " Software Documentation",
+            " Control Theory"
         ],
-        "biopic": "images/carla.png"
+        "biopic": "images/carla.jpg"
     }
 
 
@@ -34,18 +34,18 @@ var formattedEmail = format(bio.contacts.email, HTMLemail);
 var formattedGithub = format(bio.contacts.github, HTMLgithub);
 var formattedLocation = format(bio.contacts.location, HTMLlocation);
 var formattedBioPic = format(bio.biopic, HTMLbioPic);
+var formattedSkills = format(bio.skills, HTMLskills);
 
 
 
-$("#header").append(formattedName,formattedRole, formattedEmail, formattedGithub, formattedLocation)
-
-
+$("#header").prepend(formattedBioPic).append(formattedName,formattedRole, formattedEmail, formattedGithub, formattedLocation)
+$("#header").append(HTMLskillsStart).append(formattedSkills)
 
 
 var formattedMobile = format(bio.contacts.mobile, HTMLmobile);
 var formattedEmail = format(bio.contacts.email, HTMLemail);
 
-    var work = { "jobs": [
+    var work = [
     {
         "employer": "Synapse Wireless, Inc.",
         "dates": "February 2014 - Present",
@@ -110,8 +110,37 @@ var formattedEmail = format(bio.contacts.email, HTMLemail);
             "Write Build Procedures, Installation Guides, and User Manuals for the TAP software and UCS Services"
         ]
     }]
-}
 
+function displayWork() {
+for (var jobs in work) {
+var formattedEmployer = format(work[jobs].employer, HTMLworkEmployer);
+var formattedTitle = format(work[jobs].title, HTMLworkTitle);
+var formattedLocation = format(work[jobs].location, HTMLworkLocation);
+var formattedDates = format(work[jobs].dates, HTMLworkDates);
+var description = "";
+for (i = 0; i < work[jobs].description.length; i++) {
+    description = description + work[jobs].description[i] + "<BR/>";}
+
+var formattedDescription = format(description, HTMLworkDescription);
+var formattedEmployerTitle = formattedEmployer + formattedTitle + formattedDates + formattedLocation;
+$("#workExperience").append(HTMLworkStart);
+$(".work-entry:last").append(formattedEmployerTitle).append(formattedDescription);
+
+
+//.append(formattedEmployer).append(formattedTitles);
+}}
+
+displayWork();
+
+$(document).click( function (loc) {
+    var x = loc.pageX;
+    var y = loc.pageY;
+    logClicks(x,y);
+});
+
+//var formattedGithub = format(bio.contacts.github, HTMLgithub);
+//var formattedLocation = format(bio.contacts.location, HTMLlocation);
+//var formattedBioPic = format(bio.biopic, HTMLbioPic);
     var projects = [
      {
       "dates": "Will do at later dates",
