@@ -12,7 +12,7 @@ var bio =
         "welcomeMessage": "Interested in the Defense, Space, and Commercial industries. Professional background includes development, systems, and test work on software projects for military and commercial applications. Familiar with Agile methodologies. Proven record in streamlining processes associated with software, including installer creation and regression testing. Undergraduate educational background includes robotics, embedded systems, and mechatronics at a school consistently ranked in the top 5 of electrical engineering programs. Graduate educational background includes controls and communications with a focus on modern control theories. Specialties: Robotics, Control Theory, Communications, Embedded Systems",
         "skills": [
             "Testing",
-            " Systems Enginnering",
+            " Systems Engineering",
             " Agile Methodologies",
             " Software Documentation",
             " Control Theory"
@@ -27,25 +27,22 @@ function format(data, html) {
       return formattedData;
     }
 
-var formattedName = HTMLheaderName.replace("%data%", bio.name);
-var formattedRole = HTMLheaderRole.replace("%data%", bio.role);
-var formattedMobile = format(bio.contacts.mobile, HTMLmobile);
-var formattedEmail = format(bio.contacts.email, HTMLemail);
-var formattedGithub = format(bio.contacts.github, HTMLgithub);
-var formattedLocation = format(bio.contacts.location, HTMLlocation);
-var formattedBioPic = format(bio.biopic, HTMLbioPic);
-var formattedSkills = format(bio.skills, HTMLskills);
+bio.display = function() {
+    var formattedName = HTMLheaderName.replace("%data%", bio.name);
+    var formattedRole = HTMLheaderRole.replace("%data%", bio.role);
+    var formattedMobile = format(bio.contacts.mobile, HTMLmobile);
+    var formattedEmail = format(bio.contacts.email, HTMLemail);
+    var formattedGithub = format(bio.contacts.github, HTMLgithub);
+    var formattedLocation = format(bio.contacts.location, HTMLlocation);
+    var formattedBioPic = format(bio.biopic, HTMLbioPic);
+    var formattedSkills = format(bio.skills, HTMLskills);
+    $("#header").append(formattedName,formattedRole, formattedBioPic, formattedEmail, formattedGithub, formattedLocation)
+    $("#header").append(HTMLskillsStart).append(formattedSkills);
+    }
 
+bio.display();
 
-
-$("#header").prepend(formattedBioPic).append(formattedName,formattedRole, formattedEmail, formattedGithub, formattedLocation)
-$("#header").append(HTMLskillsStart).append(formattedSkills)
-
-
-var formattedMobile = format(bio.contacts.mobile, HTMLmobile);
-var formattedEmail = format(bio.contacts.email, HTMLemail);
-
-    var work = [
+var work = { "jobs": [
     {
         "employer": "Synapse Wireless, Inc.",
         "dates": "February 2014 - Present",
@@ -109,60 +106,77 @@ var formattedEmail = format(bio.contacts.email, HTMLemail);
             "Create installers for the TAP software, UCS services, and Middleware using InstallAnywhere and RPMs",
             "Write Build Procedures, Installation Guides, and User Manuals for the TAP software and UCS Services"
         ]
-    }]
+    }]}
 
-function displayWork() {
-for (var jobs in work) {
-var formattedEmployer = format(work[jobs].employer, HTMLworkEmployer);
-var formattedTitle = format(work[jobs].title, HTMLworkTitle);
-var formattedLocation = format(work[jobs].location, HTMLworkLocation);
-var formattedDates = format(work[jobs].dates, HTMLworkDates);
-var description = "";
-for (i = 0; i < work[jobs].description.length; i++) {
-    description = description + work[jobs].description[i] + "<BR/>";}
+    work.display = function() {
+        for (var jobs in work.jobs) {
+            var formattedEmployer = format(work.jobs[jobs].employer, HTMLworkEmployer);
+            var formattedTitle = format(work.jobs[jobs].title, HTMLworkTitle);
+            var formattedLocation = format(work.jobs[jobs].location, HTMLworkLocation);
+            var formattedDates = format(work.jobs[jobs].dates, HTMLworkDates);
+            var description = "";
+            for (i = 0; i < work.jobs[jobs].description.length; i++) {
+                description = description + work.jobs[jobs].description[i] + "<BR/>";}
+            var formattedDescription = format(description, HTMLworkDescription);
+            var formattedEmployerTitle = formattedEmployer + formattedTitle + formattedDates + formattedLocation;
+            $("#workExperience").append(HTMLworkStart);
+            $(".work-entry:last").append(formattedEmployerTitle).append(formattedDescription);
+    }};
 
-var formattedDescription = format(description, HTMLworkDescription);
-var formattedEmployerTitle = formattedEmployer + formattedTitle + formattedDates + formattedLocation;
-$("#workExperience").append(HTMLworkStart);
-$(".work-entry:last").append(formattedEmployerTitle).append(formattedDescription);
+    work.display();
 
+    $(document).click( function (loc) {
+        var x = loc.pageX;
+        var y = loc.pageY;
+        logClicks(x,y);
+    });
 
-//.append(formattedEmployer).append(formattedTitles);
-}}
-
-displayWork();
-
-$(document).click( function (loc) {
-    var x = loc.pageX;
-    var y = loc.pageY;
-    logClicks(x,y);
-});
-
-//var formattedGithub = format(bio.contacts.github, HTMLgithub);
-//var formattedLocation = format(bio.contacts.location, HTMLlocation);
-//var formattedBioPic = format(bio.biopic, HTMLbioPic);
-    var projects = [
+var projects =  { "projects": [
      {
       "dates": "Will do at later dates",
       "title": "Will do at later dates",
-      "description": "Will do at later dates"
-    }]
+      "description": "Will do at later dates",
+      "images": []
+    },
+     {
+      "dates": "Will do at later dates",
+      "title": "Will do at later dates",
+      "description": "Will do at later dates",
+      "images": ["images/project2-1.png", "images/project2-2.png"]
+    }
+    ]}
 
-    var education = [
-    {
+projects.display = function() {
+    for (var project in projects.projects) {
+        var formattedTitle = format(projects.projects[project].title, HTMLprojectTitle);
+        var formattedDates = format(projects.projects[project].dates, HTMLprojectDates);
+        var formattedDescription = format(projects.projects[project].description, HTMLprojectDescription);
+        var images = "";
+        for (i = 0; i < projects.projects[project].images.length; i++) {
+            formattedImage = format(projects.projects[project].images[i], HTMLprojectImage);
+            images = images + " " + formattedImage;}
+        var formattedProjects = formattedTitle + formattedDates + formattedDescription;
+        $("#projects").append(HTMLprojectStart);
+        $(".project-entry:last").append(formattedProjects).append(images);
+    }}
+
+projects.display();
+
+
+var education = {
         "schools": [
             {
                 "name": "University of Alabama in Huntsville",
                 "location": "Huntsville, AL",
                 "degree": "MS",
-                "majors": "Electrical Engineering, Control Theory",
+                "majors": "Electrical Engineering with a focus in Control Theory",
                 "minors": "Communications",
                 "dates": "2011 - 2013",
                 "url": "http://www.uah.edu/"
             },
             {
                 "name": "University of Illinois at Urbana-Champaign",
-                "location": "Urbana",
+                "location": "Urbana, IL",
                 "degree": "BS",
                 "majors": "Electrical Engineering",
                 "dates": "2008 - 2010",
@@ -170,7 +184,7 @@ $(document).click( function (loc) {
             },
             {
                 "name": "Kankakee Community College",
-                "location": "Kankakee",
+                "location": "Kankakee, IL",
                 "degree": "AS",
                 "majors": "Engineering",
                 "dates": "2006 - 2008",
@@ -186,29 +200,25 @@ $(document).click( function (loc) {
             }
         ]
     }
-    ]
 
-var HTMLskillsStart = '<h3 id="skillsH3">Skills at a Glance:</h3><ul id="skills" class="flex-box"></ul>';
-var HTMLskills = '<li class="flex-item"><span class="white-text">%data%</span></li>';
 
-var HTMLworkStart = '<div class="work-entry"></div>';
-var HTMLworkEmployer = '<a href="#">%data%';
-var HTMLworkTitle = ' - %data%</a>';
-var HTMLworkDates = '<div class="date-text">%data%</div>';
-var HTMLworkLocation = '<div class="location-text">%data%</div>';
-var HTMLworkDescription = '<p><br>%data%</p>';
+education.display = function() {
+        for (var school in education.schools) {
+            var formattedSchool = format(education.schools[school].name, HTMLschoolName);
+            console.log(education.schools[school].name);
+            var formattedDegree = format(education.schools[school].degree, HTMLschoolDegree);
+            var formattedLocation = format(education.schools[school].location, HTMLschoolLocation);
+            var formattedDates = format(education.schools[school].dates, HTMLschoolDates);
+            var formattedMajor = format(education.schools[school].majors, HTMLschoolMajor);
+            var formattedSchoolInfo = formattedSchool + formattedDegree + formattedDates + formattedMajor + formattedLocation;
+            $("#education").append(HTMLschoolStart);
+            $(".education-entry:last").append(formattedSchoolInfo);
+}};
 
-var HTMLprojectStart = '<div class="project-entry"></div>';
-var HTMLprojectTitle = '<a href="#">%data%</a>';
-var HTMLprojectDates = '<div class="date-text">%data%</div>';
-var HTMLprojectDescription = '<p><br>%data%</p>';
-var HTMLprojectImage = '<img src="%data%">';
+education.display();
 
-var HTMLschoolStart = '<div class="education-entry"></div>';
-var HTMLschoolName = '<a href="#">%data%';
-var HTMLschoolDegree = ' -- %data%</a>';
-var HTMLschoolDates = '<div class="date-text">%data%</div>';
-var HTMLschoolLocation = '<div class="location-text">%data%</div>';
-var HTMLschoolMajor = '<em><br>Major: %data%</em>';
+$("#mapDiv").append(googleMap);
 
-    format = HTMLheaderName.replace("%data%", name);
+google.maps.event.addListener(marker, 'click', function() {
+    // your code goes here
+});
